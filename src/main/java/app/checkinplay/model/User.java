@@ -37,6 +37,6 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    @Column(name = "modified_at", nullable = false)
-    private Instant modifiedAt;
+    @Column(name = "updated_at", nullable = false)
+    private Instant updatedAt;
 }

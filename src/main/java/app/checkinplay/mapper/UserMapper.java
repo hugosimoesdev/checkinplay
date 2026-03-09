@@ -14,7 +14,7 @@ public class UserMapper {
         .name(req.name())
         .email(req.email())
         .createdAt(Instant.now())
-        .modifiedAt(Instant.now())
+        .updatedAt(Instant.now())
         .build();
     }
 
@@ -26,13 +26,16 @@ public class UserMapper {
         if(req.email() != null){
             entity.setEmail(req.email());
         }
+
+        entity.setUpdatedAt(Instant.now());
     }
 
     public static UserResponse toResponse(User entity){
         return new UserResponse(
             entity.getId(),
             entity.getName(),
-            entity.getEmail()
+            entity.getEmail(),
+            entity.getUpdatedAt()
         );
     }
 }
