@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,9 +36,9 @@ public class UserController {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
-    
-    @PostMapping("/{id}")
-    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequest req){
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UserResponse> updateUser(@PathVariable UUID id, @Valid @RequestBody UserUpdateRequest req) {
         var updatedUser = userService.update(id, req);
 
         return ResponseEntity.ok(updatedUser);
@@ -52,7 +53,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserResponse> getUserById(@PathVariable UUID id) {
-        var user = userService.getById(id);
+        var user = userService.findById(id);
         return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toResponse(user));
     }
 

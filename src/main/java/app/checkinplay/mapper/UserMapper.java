@@ -9,33 +9,35 @@ import app.checkinplay.model.User;
 
 public class UserMapper {
 
-    public static User toEntity(UserCreateRequest req){
-        return User.builder()
-        .name(req.name())
-        .email(req.email())
-        .createdAt(Instant.now())
-        .updatedAt(Instant.now())
-        .build();
+    private UserMapper() {
     }
 
-    public static void merge(User entity, UserUpdateRequest req){
-        if(req.name() != null){
+    public static User toEntity(UserCreateRequest req) {
+        return User.builder()
+                .name(req.name())
+                .email(req.email())
+                .createdAt(Instant.now())
+                .updatedAt(Instant.now())
+                .build();
+    }
+
+    public static void merge(User entity, UserUpdateRequest req) {
+        if (req.name() != null) {
             entity.setName(req.name());
         }
-        
-        if(req.email() != null){
+
+        if (req.email() != null) {
             entity.setEmail(req.email());
         }
 
         entity.setUpdatedAt(Instant.now());
     }
 
-    public static UserResponse toResponse(User entity){
+    public static UserResponse toResponse(User entity) {
         return new UserResponse(
-            entity.getId(),
-            entity.getName(),
-            entity.getEmail(),
-            entity.getUpdatedAt()
-        );
+                entity.getId(),
+                entity.getName(),
+                entity.getEmail(),
+                entity.getUpdatedAt());
     }
 }

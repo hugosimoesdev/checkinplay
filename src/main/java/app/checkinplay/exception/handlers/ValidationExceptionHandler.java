@@ -1,4 +1,4 @@
-package app.checkinplay.exception;
+package app.checkinplay.exception.handlers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,16 +10,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
 public class ValidationExceptionHandler {
-    
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidation(
-        MethodArgumentNotValidException ex
-    ){
+            MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
 
         ex.getBindingResult()
-            .getFieldErrors()
-            .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+                .getFieldErrors()
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
         return ResponseEntity.badRequest().body(errors);
     }
 

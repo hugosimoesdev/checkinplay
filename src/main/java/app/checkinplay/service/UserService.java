@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import app.checkinplay.dto.UserCreateRequest;
 import app.checkinplay.dto.UserResponse;
 import app.checkinplay.dto.UserUpdateRequest;
+import app.checkinplay.exception.ResourceAlreadyExistsException;
 import app.checkinplay.exception.ResourceNotFoundException;
 import app.checkinplay.mapper.UserMapper;
 import app.checkinplay.model.User;
@@ -25,6 +26,8 @@ public class UserService {
 
     @Transactional
     public UserResponse create(@Valid UserCreateRequest req) {
+        validateEmailNotInUse(req.email());
+
         User entity = UserMapper.toEntity(req);
         entity = repository.save(entity);
 
@@ -32,8 +35,8 @@ public class UserService {
     }
 
     @Transactional
-    public UserResponse update(UUID id, @Valid UserUpdateRequest req){
-        User entity = getById(id);
+    public UserResponse update(UUID id, @Valid UserUpdateRequest req) {
+        User entity = findById(id);
 
         UserMapper.merge(entity, req);
         entity = repository.save(entity);
@@ -43,7 +46,7 @@ public class UserService {
 
     @Transactional
     public void delete(UUID id) {
-        User entity = getById(id);
+        User entity = findById(id);
         repository.delete(entity);
     }
 
@@ -51,7 +54,13 @@ public class UserService {
         return repository.findAll().stream().map(UserMapper::toResponse).toList();
     }
 
-    public User getById(UUID id) {
+    public User findById(UUID id) {
         return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
+    }
+
+    private void validateEmailNotInUse(String email) {
+        if (repository.existsByEmail(email)) {
+            throw new ResourceAlreadyExistsException(email);
+        }
     }
 }
