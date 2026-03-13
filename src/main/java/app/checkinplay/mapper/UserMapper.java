@@ -6,11 +6,10 @@ import app.checkinplay.dto.UserCreateRequest;
 import app.checkinplay.dto.UserResponse;
 import app.checkinplay.dto.UserUpdateRequest;
 import app.checkinplay.model.User;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class UserMapper {
-
-    private UserMapper() {
-    }
 
     public static User toEntity(UserCreateRequest req) {
         return User.builder()
