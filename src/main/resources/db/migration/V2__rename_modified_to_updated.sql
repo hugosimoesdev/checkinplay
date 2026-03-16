@@ -1,1 +1,0 @@
-ALTER TABLE users RENAME COLUMN modified_at TO updated_at;
