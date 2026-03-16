@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import app.checkinplay.dto.SportCreateRequest;
 import app.checkinplay.dto.SportResponse;
-import app.checkinplay.exception.ResourceNotFoundException;
+import app.checkinplay.exception.UserNotFoundException;
 import app.checkinplay.mapper.SportMapper;
 import app.checkinplay.model.Sport;
 import app.checkinplay.model.User;
@@ -33,7 +33,7 @@ public class SportService {
         UUID userId = req.createdBy();
         if (userId != null) {
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new ResourceNotFoundException("User", userId));
+                    .orElseThrow(() -> new UserNotFoundException(userId));
             sport.setCreatedBy(user);
         }
 

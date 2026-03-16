@@ -17,7 +17,6 @@ public class SportMapper {
         return SportResponse.builder()
                 .id(sport.getId())
                 .name(sport.getName())
-                .createdBy(UserMapper.toResponse(sport.getCreatedBy()))
                 .build();
     }
 }

@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import app.checkinplay.dto.UserCreateRequest;
 import app.checkinplay.dto.UserResponse;
 import app.checkinplay.dto.UserUpdateRequest;
-import app.checkinplay.exception.ResourceAlreadyExistsException;
-import app.checkinplay.exception.ResourceNotFoundException;
+import app.checkinplay.exception.EmailNotFoundException;
+import app.checkinplay.exception.UserNotFoundException;
 import app.checkinplay.mapper.UserMapper;
 import app.checkinplay.model.User;
 import app.checkinplay.repository.UserRepository;
@@ -55,12 +55,12 @@ public class UserService {
     }
 
     public User findById(UUID id) {
-        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", id));
+        return repository.findById(id).orElseThrow(() -> new UserNotFoundException(id));
     }
 
     private void validateEmailNotInUse(String email) {
         if (repository.existsByEmail(email)) {
-            throw new ResourceAlreadyExistsException(email);
+            throw new EmailNotFoundException(email);
         }
     }
 }

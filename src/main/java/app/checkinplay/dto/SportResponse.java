@@ -5,7 +5,6 @@ import lombok.Builder;
 @Builder
 public record SportResponse(
                 Long id,
-                String name,
-                UserResponse createdBy) {
+                String name) {
 
 }

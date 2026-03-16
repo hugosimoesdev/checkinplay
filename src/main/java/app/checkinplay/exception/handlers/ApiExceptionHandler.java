@@ -7,21 +7,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import app.checkinplay.exception.ResourceAlreadyExistsException;
-import app.checkinplay.exception.ResourceNotFoundException;
+import app.checkinplay.exception.EmailNotFoundException;
+import app.checkinplay.exception.SportNotFoundException;
+import app.checkinplay.exception.UserNotFoundException;
 
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(ResourceNotFoundException.class)
+    @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleResourceNotFound(
-            ResourceNotFoundException ex) {
+            UserNotFoundException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
 
-    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    @ExceptionHandler(SportNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleResourceAlreadyExists(
-            ResourceAlreadyExistsException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", ex.getMessage()));
+            SportNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
+    }
+
+    @ExceptionHandler(EmailNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleResourceAlreadyExists(
+            EmailNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", ex.getMessage()));
     }
 }
